@@ -56,7 +56,7 @@ const tokenCode = jsonwebtoken.sign(
 registerCustomerController.verifyCode = async (req, res) => {
     try {
         const { verificationCodeRequest } = req.body;
-        const token = req.cookies.verificationCookie;
+        const token = req.cookies.verificationTokenCookie;
         const decoded = jsonwebtoken.verify(token, config.JWT.secret)
         const {email, verificationCode: storedCode} = decoded;
 
@@ -65,7 +65,7 @@ registerCustomerController.verifyCode = async (req, res) => {
         }
 
         const customer = await customersModel.findOne({email});
-        isVerfified = true;
+        customer.isVerfified = true;
         await customer.save();
         res.clearCookie("verificationTokenCookie")
         res.json({message : "Email verified successfully"})

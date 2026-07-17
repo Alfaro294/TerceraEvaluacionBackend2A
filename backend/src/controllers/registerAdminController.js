@@ -55,7 +55,7 @@ const tokenCode = jsonwebtoken.sign(
 registerAdminController.verifyCode = async (req, res) => {
     try {
         const { verificationCodeRequest } = req.body;
-        const token = req.cookies.verificationCookie;
+        const token = req.cookies.verificationTokenCookie;
         const decoded = jsonwebtoken.verify(token, config.JWT.secret)
         const {email, verificationCode: storedCode} = decoded;
 
@@ -64,7 +64,7 @@ registerAdminController.verifyCode = async (req, res) => {
         }
 
         const admin = await adminsModel.findOne({email});
-        isVerfified = true;
+        admin.isVerfified = true;
         await admin.save();
         res.clearCookie("verificationTokenCookie")
         res.json({message : "Email verified successfully"})
