@@ -5,8 +5,8 @@ import mongoose, {Schema, model} from "mongoose";
 
 const ticketsSchema = new Schema({
     customerId : { type : String},
-    quantity : {type : String},
-    purchaseDate : {type: String},
+    quantity : {type : Number},
+    purchaseDate : {type: Date},
     total : { type : String},
     paymentStatus : { type : Boolean},
     transactionId : { type:String  },
